@@ -8,9 +8,10 @@ https://github.com/studioimaginaire/phue
 
 Published under the GWTFPL - http://www.wtfpl.net
 
-"Hue Personal Wireless Lighting" is a trademark owned by Koninklijke Philips Electronics N.V., see www.meethue.com for more information.
-I am in no way affiliated with the Philips organization.
+"Hue Personal Wireless Lighting" is a trademark owned by Koninklijke Philips
+Electronics N.V., see www.meethue.com for more information.
 
+I am in no way affiliated with the Philips organization.
 '''
 
 __version__ = '0.1'
