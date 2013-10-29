@@ -14,7 +14,7 @@ Electronics N.V., see www.meethue.com for more information.
 I am in no way affiliated with the Philips organization.
 '''
 
-__version__ = '0.1'
+__version__ = '0.2'
 
 import phue as hue
 import sys
@@ -32,7 +32,6 @@ class HueController(hue.Bridge):
         hue.Bridge.__init__(self, ip)
 
     def _light_to_dict(self, light):
-        print light
         ldict = { 'id'   : light.light_id,
                   'name' : light.name,
                   'on'   : light.on}
@@ -76,7 +75,7 @@ class HueController(hue.Bridge):
         self.set_light(cfg['id'], cmd)
 
     def save_state(self, name):
-        lights = bridge.get_light_objects('id')
+        lights = self.get_light_objects('id')
         state = [ self._light_to_dict(light) for light in self.lights ]
         text = json.dumps(state, sort_keys=True,
                           indent=4, separators=(',', ': '))
