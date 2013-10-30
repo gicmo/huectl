@@ -2,7 +2,9 @@
 
 import argparse
 import logging
+import sys
 from huecontroller import HueController
+from phue import PhueRegistrationException
 
 if __name__ == '__main__':
 
@@ -19,6 +21,7 @@ if __name__ == '__main__':
     offcmd = subcmds.add_parser('off')
     oncmd = subcmds.add_parser('on')
     cntcmd = subcmds.add_parser('connect')
+    cntcmd.add_argument('--bridge', required=True)
 
     args = parser.parse_args()
 
@@ -26,7 +29,18 @@ if __name__ == '__main__':
         logger = logging.getLogger('phue')
         logger.setLevel(logging.CRITICAL)
 
-    ctl = HueController(args.bridge)
+    try:
+        ctl = HueController(args.bridge)
+    except PhueRegistrationException as exp:
+            print exp.message
+    except Exception as exp:
+        if args.bridge is None:
+            sys.stderr.write('Could not connect to the bridge.\n'
+                             'Did you register the app with:\n'
+                             '\t\'huectl --bridge <hostname|IP> connect\'?\n')
+        else:
+            sys.stderr.write(exp.message)
+        sys.exit(-1)
 
     if args.command == 'list':
         for cfg in ctl.configs:
@@ -39,7 +53,4 @@ if __name__ == '__main__':
         ctl.lights_off()
     elif args.command == 'on':
         ctl.lights_on()
-    elif args.command == 'connect':
-        ctl.connect()
-
 
